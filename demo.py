@@ -3,8 +3,12 @@ from bs4 import BeautifulSoup
 
 
 def getHTML(url):
-    r = requests.get(url)
-    return r
+    try:
+        r = requests.get(url)
+        r.raise_for_status()
+        return r
+    except:
+        return ""
 
 
 def parserHTML(data):
