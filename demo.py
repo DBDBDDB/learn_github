@@ -13,14 +13,21 @@ def getHTML(url):
 
 def parserHTML(data):
     soup = BeautifulSoup(data.text, 'html.parser')
-    imageURL = soup.find('img', attrs={"data-src": True})
-    return imageURL['data-src']
+    imageURL = soup.find_all('img', attrs={"data-src": True})
+    
+    imageList = []
+    for i in imageURL:
+        imageList.append(i['data-src'])
+    return imageList[0:3]
 
 
 def saveImage(imageURL):
-    imageData = requests.get('http:'+imageURL)
-    with open('Dr-Ji.jpg', 'wb') as f:
-        f.write(imageData.content)
+    m = 1
+    for i in imageURL:
+        imageData = requests.get("http:"+i)
+        with open(str(m)+'.jpg', 'wb') as f:
+            f.write(imageData.content)
+            m = m+1
 
 
 def main():
